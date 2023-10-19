@@ -21,60 +21,92 @@ export const validateLicenseKey = async (key: string) => {
 
 
 export const mjImageByPrompt = async (prompt: string) => {
-    const response = await fetchMJPost('/mj/submit/imagine', { prompt: prompt });
+    const urlParams = new URLSearchParams(window.location.search);
+    const apiSecret = urlParams.get('api_secret');
+    if (!apiSecret) {
+        alert('未检测到api令牌');
+        return;
+    }
+    const response = await fetchMJPost('/mj/submit/imagine', { prompt: prompt },apiSecret);
     return response;
 };
 
 
 export const mjGetTaskInfo = async (taskId: string) => {
-    const response = await fetchMJGet('/mj/task/' + taskId + '/fetch');
+    const urlParams = new URLSearchParams(window.location.search);
+    const apiSecret = urlParams.get('api_secret');
+    const response = await fetchMJGet('/mj/task/' + taskId + '/fetch',apiSecret);
     return response;
 };
 
 export const mjImageUpScale = async (taskId: string, index: number) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const apiSecret = urlParams.get('api_secret');
+    if (!apiSecret) {
+        alert('未检测到api令牌');
+        return;
+    }
     const response = await fetchMJPost('/mj/submit/change', {
         action: 'UPSCALE',
         taskId: taskId,
         index: index,
-    });
+    },apiSecret);
     return response;
 };
 
 export const mjImageUpVariate = async (taskId: string, index: number) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const apiSecret = urlParams.get('api_secret');
+    if (!apiSecret) {
+        alert('未检测到api令牌');
+        return;
+    }
     const response = await fetchMJPost('/mj/submit/change', {
         action: 'VARIATION',
         taskId: taskId,
         index: index,
-    });
+    },apiSecret);
     return response;
 };
 
 export const mjImageUpReroll = async (taskId: string) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const apiSecret = urlParams.get('api_secret');
+    if (!apiSecret) {
+        alert('未检测到api令牌');
+        return;
+    }
     const response = await fetchMJPost('/mj/submit/change', {
         action: 'REROLL',
         taskId: taskId,
-    });
+    },apiSecret);
     return response;
 };
 
 export const mjImageDescribe = async (imageBase64: string) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const apiSecret = urlParams.get('api_secret');
     const response = await fetchMJPost('/mj/submit/describe', {
         base64: imageBase64,
-    });
+    },apiSecret);
     return response;
 };
 
 
 export const mjImageBlend = async (ImageBase64s: string[]) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const apiSecret = urlParams.get('api_secret');
     const response = await fetchMJPost("/mj/submit/blend", {
-      base64Array: ImageBase64s,
-    });
+        base64Array: ImageBase64s,
+    },apiSecret);
     return response;
  }
 
 
 export const mjGetQueue = async () => {
-    const response = await fetchMJGet('/mj/queue');
+    const urlParams = new URLSearchParams(window.location.search);
+    const apiSecret = urlParams.get('api_secret');
+    const response = await fetchMJGet('/mj/queue',apiSecret);
     return response;
 };
 

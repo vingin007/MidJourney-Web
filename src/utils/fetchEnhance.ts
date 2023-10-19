@@ -9,12 +9,12 @@ export async function fetchPost(url = '', data = {}) {
   })
   return response.json()
 }
-export async function fetchMJPost(url = '', data = {}) {
+export async function fetchMJPost(url = '', data = {}, apiSecretFromURL: string | null) {
     const response = await fetch("/mj-api" + url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "mj-api-secret": import.meta.env.VITE_MIDJOURNEY_PROXY_API_SECRET??'',
+        "mj-api-secret": apiSecretFromURL??'',
       },
       body: JSON.stringify(data),
     });
@@ -22,12 +22,12 @@ export async function fetchMJPost(url = '', data = {}) {
 }
 
 
-export async function fetchMJGet(url = '') {
+export async function fetchMJGet(url = '',apiSecretFromURL: string | null) {
     const response = await fetch("/mj-api" + url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "mj-api-secret": import.meta.env.VITE_MIDJOURNEY_PROXY_API_SECRET ?? "",
+        "mj-api-secret": apiSecretFromURL ?? "",
       },
     });
     if (!response.ok) {
